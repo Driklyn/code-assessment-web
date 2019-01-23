@@ -28,12 +28,14 @@ describe('reducers', () => {
         expect(products.getProduct(state, 1)).toEqual({
           id: 1,
           title: 'Product 1',
-            inventory: 2
+          inventory: 2,
+          initialInventory: 2
         })
         expect(products.getProduct(state, 2)).toEqual({
           id: 2,
           title: 'Product 2',
-            inventory: 1
+          inventory: 1,
+          initialInventory: 1
         })
       })
 
@@ -46,11 +48,13 @@ describe('reducers', () => {
           {
             id: 1,
             title: 'Product 1',
-            inventory: 2
+            inventory: 2,
+            initialInventory: 2
           }, {
             id: 2,
             title: 'Product 2',
-            inventory: 1
+            inventory: 1,
+            initialInventory: 1
           }
         ])
       })
@@ -66,11 +70,40 @@ describe('reducers', () => {
             {
               id: 1,
               title: 'Product 1',
-              inventory: 1
+              inventory: 1,
+              initialInventory: 2
             }, {
               id: 2,
               title: 'Product 2',
-              inventory: 1
+              inventory: 1,
+              initialInventory: 1
+            }
+          ])
+        })
+
+      })
+
+      describe('when an item is removed from the cart', () => {
+
+        beforeEach(() => {
+          state = reducer(
+            reducer(state, { type: 'ADD_TO_CART', productId: 1 }),
+            { type: 'REMOVE_FROM_CART', productId: 1 }
+          )
+        })
+
+        it('the inventory is increased', () => {
+          expect(products.getVisibleProducts(state)).toEqual([
+            {
+              id: 1,
+              title: 'Product 1',
+              inventory: 2,
+              initialInventory: 2
+            }, {
+              id: 2,
+              title: 'Product 2',
+              inventory: 1,
+              initialInventory: 1
             }
           ])
         })

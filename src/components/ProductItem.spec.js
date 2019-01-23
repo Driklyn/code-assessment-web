@@ -5,7 +5,8 @@ import ProductItem from './ProductItem'
 
 const setup = product => {
   const actions = {
-    onAddToCartClicked: jest.fn()
+    onAddToCartClicked: jest.fn(),
+    onRemoveFromCartClicked: jest.fn()
   }
 
   const component = shallow(
@@ -15,7 +16,8 @@ const setup = product => {
   return {
     component: component,
     actions: actions,
-    button: component.find('button'),
+    addButton: component.find('button').first(),
+    removeButton: component.find('button').last(),
     product: component.find(Product)
   }
 }
@@ -27,7 +29,8 @@ describe('ProductItem component', () => {
     productProps = {
       title: 'Product 1',
       price: 9.99,
-      inventory: 6
+      inventory: 6,
+      initialInventory: 6
     }
   })
 
@@ -37,19 +40,35 @@ describe('ProductItem component', () => {
   })
 
   it('should render Add To Cart message', () => {
-    const { button } = setup(productProps)
-    expect(button.text()).toMatch(/^Add to cart/)
+    const { addButton } = setup(productProps)
+    expect(addButton.text()).toMatch(/^Add to cart/)
   })
 
-  it('should not disable button', () => {
-    const { button } = setup(productProps)
-    expect(button.prop('disabled')).toEqual('')
+  it('should render Remove From Cart message', () => {
+    const { removeButton } = setup(productProps)
+    expect(removeButton.text()).toMatch(/^Remove from cart/)
   })
 
-  it('should call action on button click', () => {
-    const { button, actions } = setup(productProps)
-    button.simulate('click')
+  it('should not disable add button', () => {
+    const { addButton } = setup(productProps)
+    expect(addButton.prop('disabled')).toEqual('')
+  })
+
+  it('should disable remove button', () => {
+    const { removeButton } = setup(productProps)
+    expect(removeButton.prop('disabled')).toEqual('disabled')
+  })
+
+  it('should call action on add button click', () => {
+    const { addButton, actions } = setup(productProps)
+    addButton.simulate('click')
     expect(actions.onAddToCartClicked).toBeCalled()
+  })
+
+  it('should call action on remove button click', () => {
+    const { removeButton, actions } = setup(productProps)
+    removeButton.simulate('click')
+    expect(actions.onRemoveFromCartClicked).toBeCalled()
   })
 
   describe('when product inventory is 0', () => {
@@ -58,13 +77,18 @@ describe('ProductItem component', () => {
     })
 
     it('should render Sold Out message', () => {
-      const { button } = setup(productProps)
-      expect(button.text()).toMatch(/^Sold Out/)
+      const { addButton } = setup(productProps)
+      expect(addButton.text()).toMatch(/^Sold Out/)
     })
 
-    it('should disable button', () => {
-      const { button } = setup(productProps)
-      expect(button.prop('disabled')).toEqual('disabled')
+    it('should disable add button', () => {
+      const { addButton } = setup(productProps)
+      expect(addButton.prop('disabled')).toEqual('disabled')
+    })
+
+    it('should enable remove button', () => {
+      const { removeButton } = setup(productProps)
+      expect(removeButton.prop('disabled')).toEqual('')
     })
   })
 })
