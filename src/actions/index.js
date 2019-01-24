@@ -36,6 +36,20 @@ export const removeFromCart = productId => (dispatch, getState) => {
   }
 }
 
+const updateCartQuantityUnsafe = (productId, quantity) => ({
+  type: types.UPDATE_CART_QUANTITY,
+  productId,
+  quantity
+})
+
+export const updateCartQuantity = (productId, quantity) => (dispatch, getState) => {
+  const maxQuantity = getState().products.byId[productId].initialInventory
+
+  quantity = (Number.isNaN(quantity) || quantity < 0) ? 0 : ((quantity > maxQuantity) ? maxQuantity : quantity)
+
+  dispatch(updateCartQuantityUnsafe(productId, quantity))
+}
+
 export const checkout = products => (dispatch, getState) => {
   const { cart } = getState()
 

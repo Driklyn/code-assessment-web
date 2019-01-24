@@ -110,6 +110,49 @@ describe('reducers', () => {
 
       })
 
+      describe('when an item quantity is updated in the cart', () => {
+
+        it('the inventory is reduced', () => {
+          state = reducer(state, { type: 'UPDATE_CART_QUANTITY', productId: 1, quantity: 2 })
+
+          expect(products.getVisibleProducts(state)).toEqual([
+            {
+              id: 1,
+              title: 'Product 1',
+              inventory: 0,
+              initialInventory: 2
+            }, {
+              id: 2,
+              title: 'Product 2',
+              inventory: 1,
+              initialInventory: 1
+            }
+          ])
+        })
+
+        it('the inventory is increased', () => {
+          state = reducer(
+            reducer(state, { type: 'UPDATE_CART_QUANTITY', productId: 1, quantity: 2 }),
+            { type: 'UPDATE_CART_QUANTITY', productId: 1, quantity: 1 }
+          )
+
+          expect(products.getVisibleProducts(state)).toEqual([
+            {
+              id: 1,
+              title: 'Product 1',
+              inventory: 1,
+              initialInventory: 2
+            }, {
+              id: 2,
+              title: 'Product 2',
+              inventory: 1,
+              initialInventory: 1
+            }
+          ])
+        })
+
+      })
+
     })
   })
 })

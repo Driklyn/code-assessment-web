@@ -6,7 +6,8 @@ import ProductItem from './ProductItem'
 const setup = product => {
   const actions = {
     onAddToCartClicked: jest.fn(),
-    onRemoveFromCartClicked: jest.fn()
+    onRemoveFromCartClicked: jest.fn(),
+    onCartQuantityChanged: jest.fn()
   }
 
   const component = shallow(
@@ -18,6 +19,7 @@ const setup = product => {
     actions: actions,
     addButton: component.find('button').first(),
     removeButton: component.find('button').last(),
+    quantityInput: component.find('input'),
     product: component.find(Product)
   }
 }
@@ -49,6 +51,11 @@ describe('ProductItem component', () => {
     expect(removeButton.text()).toMatch(/^Remove from cart/)
   })
 
+  it('should render quantity input', () => {
+    const { quantityInput } = setup(productProps)
+    expect(quantityInput.prop('value')).toEqual(0)
+  })
+
   it('should not disable add button', () => {
     const { addButton } = setup(productProps)
     expect(addButton.prop('disabled')).toEqual('')
@@ -71,6 +78,12 @@ describe('ProductItem component', () => {
     expect(actions.onRemoveFromCartClicked).toBeCalled()
   })
 
+  it('should call action on quantity input change', () => {
+    const { quantityInput, actions } = setup(productProps)
+    quantityInput.simulate('change', { target: { value: 0 } })
+    expect(actions.onCartQuantityChanged).toBeCalled()
+  })
+
   describe('when product inventory is 0', () => {
     beforeEach(() => {
       productProps.inventory = 0
@@ -89,6 +102,11 @@ describe('ProductItem component', () => {
     it('should enable remove button', () => {
       const { removeButton } = setup(productProps)
       expect(removeButton.prop('disabled')).toEqual('')
+    })
+
+    it('should update cart quantity', () => {
+      const { quantityInput } = setup(productProps)
+      expect(quantityInput.prop('value')).toEqual(productProps.initialInventory)
     })
   })
 })
