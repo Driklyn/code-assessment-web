@@ -1,4 +1,5 @@
 ﻿export const STORE_NAME = 'Acme Store'
+export const CART_EMPTY = 'Your cart is empty'
 export const REMAINING = 'REMAINING'
 export const ADD_TO_CART = 'ADD TO CART'
 export const REMOVE_FROM_CART = 'REMOVE FROM CART'

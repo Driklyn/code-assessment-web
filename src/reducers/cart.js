@@ -1,4 +1,5 @@
 import {
+  SET_CART_VISIBILITY,
   ADD_TO_CART,
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
@@ -7,9 +8,12 @@ import {
 } from '../constants/ActionTypes'
 
 const initialState = {
+  isVisible: false,
   addedIds: [],
   quantityById: {}
 }
+
+export const getVisibility = state => state.isVisible
 
 const addedIds = (state = initialState, action) => {
   const { productId } = action
@@ -77,12 +81,15 @@ export const getAddedIds = state => state.addedIds
 
 const cart = (state = initialState, action) => {
   switch (action.type) {
+    case SET_CART_VISIBILITY:
+      return { ...state, isVisible: action.isVisible }
     case CHECKOUT_REQUEST:
       return initialState
     case CHECKOUT_FAILURE:
       return action.cart
     default:
       return {
+        isVisible: state.isVisible,
         addedIds: addedIds(state, action),
         quantityById: quantityById(state.quantityById, action)
       }

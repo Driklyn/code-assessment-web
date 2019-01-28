@@ -3,7 +3,7 @@ import * as types from '../constants/ActionTypes'
 
 const receiveProducts = products => ({
   type: types.RECEIVE_PRODUCTS,
-  products: products
+  products
 })
 
 export const getAllProducts = () => dispatch => {
@@ -11,6 +11,11 @@ export const getAllProducts = () => dispatch => {
     dispatch(receiveProducts(products))
   })
 }
+
+export const setCartVisibility = isVisible => ({
+  type: types.SET_CART_VISIBILITY,
+  isVisible
+})
 
 const addToCartUnsafe = productId => ({
   type: types.ADD_TO_CART,
