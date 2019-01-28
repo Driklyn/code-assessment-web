@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import Product from './Product'
 import ProductItem from './ProductItem'
+import { REMAINING, ADD_TO_CART, REMOVE_FROM_CART, SOLD_OUT } from '../constants/Labels'
 
 const setup = product => {
   const actions = {
@@ -15,12 +15,11 @@ const setup = product => {
   )
 
   return {
-    component: component,
+    product: component,
     actions: actions,
-    addButton: component.find('button').first(),
-    removeButton: component.find('button').last(),
-    quantityInput: component.find('input'),
-    product: component.find(Product)
+    addButton: component.find('Button').first(),
+    removeButton: component.find('Button').last(),
+    quantityInput: component.find('input')
   }
 }
 
@@ -38,17 +37,17 @@ describe('ProductItem component', () => {
 
   it('should render product', () => {
     const { product } = setup(productProps)
-    expect(product.props()).toEqual({ title: 'Product 1', price: 9.99, inventory: 6 })
+    expect(product.instance().props.product).toEqual(productProps)
   })
 
   it('should render Add To Cart message', () => {
     const { addButton } = setup(productProps)
-    expect(addButton.text()).toMatch(/^Add to cart/)
+    expect(addButton.props().children).toEqual(ADD_TO_CART)
   })
 
   it('should render Remove From Cart message', () => {
     const { removeButton } = setup(productProps)
-    expect(removeButton.text()).toMatch(/^Remove from cart/)
+    expect(removeButton.props().children).toEqual(REMOVE_FROM_CART)
   })
 
   it('should render quantity input', () => {
@@ -58,12 +57,12 @@ describe('ProductItem component', () => {
 
   it('should not disable add button', () => {
     const { addButton } = setup(productProps)
-    expect(addButton.prop('disabled')).toEqual('')
+    expect(addButton.prop('disabled')).toEqual(false)
   })
 
   it('should disable remove button', () => {
     const { removeButton } = setup(productProps)
-    expect(removeButton.prop('disabled')).toEqual('disabled')
+    expect(removeButton.prop('disabled')).toEqual(true)
   })
 
   it('should call action on add button click', () => {
@@ -91,17 +90,17 @@ describe('ProductItem component', () => {
 
     it('should render Sold Out message', () => {
       const { addButton } = setup(productProps)
-      expect(addButton.text()).toMatch(/^Sold Out/)
+      expect(addButton.props().children).toEqual(SOLD_OUT)
     })
 
     it('should disable add button', () => {
       const { addButton } = setup(productProps)
-      expect(addButton.prop('disabled')).toEqual('disabled')
+      expect(addButton.prop('disabled')).toEqual(true)
     })
 
     it('should enable remove button', () => {
       const { removeButton } = setup(productProps)
-      expect(removeButton.prop('disabled')).toEqual('')
+      expect(removeButton.prop('disabled')).toEqual(false)
     })
 
     it('should update cart quantity', () => {

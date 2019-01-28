@@ -4,19 +4,18 @@ import { connect } from 'react-redux'
 import { addToCart, removeFromCart, updateCartQuantity } from '../actions'
 import { getVisibleProducts } from '../reducers/products'
 import ProductItem from '../components/ProductItem'
-import ProductsList from '../components/ProductsList'
 
 const ProductsContainer = ({ products, addToCart, removeFromCart, updateCartQuantity }) => (
-  <ProductsList title="Products">
+  <div>
     {products.map(product =>
       <ProductItem
         key={product.id}
         product={product}
         onAddToCartClicked={() => addToCart(product.id)}
-        onRemoveFromCartClicked={() => removeFromCart(product.id)}
-        onCartQuantityChanged={quantity => updateCartQuantity(product.id, quantity)} />
+        /*onRemoveFromCartClicked={() => removeFromCart(product.id)}
+        onCartQuantityChanged={quantity => updateCartQuantity(product.id, quantity)}*/ />
     )}
-  </ProductsList>
+  </div>
 )
 
 ProductsContainer.propTypes = {

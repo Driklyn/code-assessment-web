@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Cart from './Cart'
-import Product from './Product'
 
 const setup = (total, products = []) => {
   const actions = {
@@ -16,7 +15,7 @@ const setup = (total, products = []) => {
     component: component,
     actions: actions,
     button: component.find('button'),
-    products: component.find(Product),
+    products: component.find('ProductItem'),
     em: component.find('em'),
     p: component.find('p')
   }
@@ -44,19 +43,14 @@ describe('Cart component', () => {
         id: 1,
         title: 'Product 1',
         price: 9.99,
-        quantity: 1
+        inventory: 1,
+        initialInventory: 1,
       }
     ]
 
     it('should render products', () => {
       const { products } = setup('9.99', product)
-      const props = {
-        title: product[0].title,
-        price: product[0].price,
-        quantity: product[0].quantity
-      }
-
-      expect(products.at(0).props()).toEqual(props)
+      expect(products.at(0).props()).toEqual({ product: product[0] })
     })
 
     it('should not disable button', () => {

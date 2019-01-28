@@ -1,16 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Product from './Product'
+import ProductItem from './ProductItem'
 
 const Cart  = ({ products, total, onCheckoutClicked }) => {
   const hasProducts = products.length > 0
   const nodes = hasProducts ? (
     products.map(product =>
-      <Product
-        title={product.title}
-        price={product.price}
-        quantity={product.quantity}
+      <ProductItem
         key={product.id}
+        product={product}
       />
     )
   ) : (
@@ -31,7 +29,13 @@ const Cart  = ({ products, total, onCheckoutClicked }) => {
 }
 
 Cart.propTypes = {
-  products: PropTypes.array,
+  products: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    inventory: PropTypes.number.isRequired,
+    initialInventory: PropTypes.number.isRequired
+  })).isRequired,
   total: PropTypes.string,
   onCheckoutClicked: PropTypes.func
 }
