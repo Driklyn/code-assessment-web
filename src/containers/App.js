@@ -1,7 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setCartVisibility } from '../actions'
-import { getCartVisibility } from '../reducers'
 import ProductsContainer from './ProductsContainer'
 import CartContainer from './CartContainer'
 import { STORE_NAME, CART_EMPTY } from '../constants/Labels'
@@ -10,7 +10,9 @@ import './App.css'
 const App = ({ setCartVisibility }) => (
   <div className="app">
     <div className="app__header">
-      <h1 className="app__storeName">{STORE_NAME}</h1>
+      <h1 className="app__storeName">
+        {STORE_NAME}
+      </h1>
       <p
         className="app__cart"
         onClick={() => setCartVisibility(true)}>
@@ -21,17 +23,17 @@ const App = ({ setCartVisibility }) => (
         {CART_EMPTY}
       </p>
     </div>
-    <hr />
+    <hr className="app__divider" />
     <ProductsContainer />
     <CartContainer />
   </div>
 )
 
-const mapStateToProps = (state) => ({
-  isVisible: getCartVisibility(state)
-})
+App.propTypes = {
+  setCartVisibility: PropTypes.func.isRequired
+}
 
 export default connect(
-  mapStateToProps,
+  null,
   { setCartVisibility }
 )(App)

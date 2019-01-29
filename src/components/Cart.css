@@ -1,0 +1,39 @@
+﻿.cart {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cart__name {
+  font-size: 38px;
+  font-weight: var(--normalWeight);
+  line-height: 32px;
+  margin: 0;
+}
+
+.cart__divider {
+  margin: 28px 0;
+}
+
+.cart__emptyContainer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.cart__emptyIcon {
+  height: 76px;
+  margin-bottom: 25px;
+  width: 95px;
+}
+
+.cart__emptyTip {
+  color: #919191;
+  font-size: 21px;
+  line-height: 28px;
+  margin: 0;
+  max-width: 260px;
+  text-align: center;
+}

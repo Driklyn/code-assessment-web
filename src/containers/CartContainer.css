@@ -1,0 +1,26 @@
+﻿.cartModal {
+  align-items: center;
+  background-color: rgba(9,9,9,.09);
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.cartModal__contents {
+  background-color: #fff;
+  border: 1px solid #e1e1e1;
+  border-radius: 14px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.17);
+  box-sizing: border-box;
+  cursor: auto;
+  height: 90%;
+  max-height: 678px;
+  max-width: 780px;
+  padding: 70px 80px;
+  width: 90%;
+}

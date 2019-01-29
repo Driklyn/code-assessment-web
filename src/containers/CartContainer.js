@@ -1,16 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { checkout } from '../actions'
+import { checkout, setCartVisibility } from '../actions'
 import { getCartVisibility, getCartProducts, getTotal } from '../reducers'
 import Cart from '../components/Cart'
+import './CartContainer.css'
 
-const CartContainer = ({ isVisible, products, total, checkout }) => (
-  !!isVisible &&
-    <Cart
-      products={products}
-      total={total}
-      onCheckoutClicked={() => checkout(products)} />
+const setPageScrolling = isAllowed => {
+  document.body.style.overflow = !isAllowed ? 'hidden' : ''
+  return true;
+}
+
+const CartContainer = ({ isVisible, products, total, checkout, setCartVisibility }) => (
+  setPageScrolling(!isVisible) && isVisible &&
+    <div
+      className="cartModal"
+      onClick={e => e.target.classList.contains('cartModal') && setCartVisibility(false)}>
+      <div className="cartModal__contents">
+        <Cart
+          products={products}
+          total={total}
+          onCheckoutClicked={() => checkout(products)} />
+      </div>
+    </div>
 )
 
 CartContainer.propTypes = {
@@ -22,7 +34,8 @@ CartContainer.propTypes = {
     quantity: PropTypes.number.isRequired
   })).isRequired,
   total: PropTypes.string,
-  checkout: PropTypes.func.isRequired
+  checkout: PropTypes.func.isRequired,
+  setCartVisibility: PropTypes.func.isRequired
 }
 
 CartContainer.defaultProps = {
@@ -37,5 +50,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  { checkout }
+  { checkout, setCartVisibility }
 )(CartContainer)
