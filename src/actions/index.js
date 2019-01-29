@@ -50,7 +50,7 @@ const updateCartQuantityUnsafe = (productId, quantity) => ({
 export const updateCartQuantity = (productId, quantity) => (dispatch, getState) => {
   const maxQuantity = getState().products.byId[productId].initialInventory
 
-  quantity = (Number.isNaN(quantity) || quantity < 0) ? 0 : ((quantity > maxQuantity) ? maxQuantity : quantity)
+  quantity = (Number.isNaN(quantity) || quantity <= 0) ? 0 : ((quantity > maxQuantity) ? maxQuantity : quantity)
 
   dispatch(updateCartQuantityUnsafe(productId, quantity))
 }

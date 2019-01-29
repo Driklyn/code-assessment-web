@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { RECEIVE_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../constants/ActionTypes'
+import { RECEIVE_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART, UPDATE_CART_QUANTITY, CHECKOUT_SUCCESS } from '../constants/ActionTypes'
 
 const products = (state, action) => {
   switch (action.type) {
@@ -34,6 +34,11 @@ const byId = (state = {}, action) => {
           return obj
         }, {})
       }
+    case CHECKOUT_SUCCESS:
+      for (const productId in state) {
+        state[productId].initialInventory = state[productId].inventory
+      }
+      return state
     default:
       const { productId } = action
       if (productId) {

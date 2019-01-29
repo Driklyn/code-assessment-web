@@ -15,7 +15,7 @@ const initialState = {
 
 export const getVisibility = state => state.isVisible
 
-const addedIds = (state = initialState, action) => {
+const addedIds = (state = initialState.addedIds, action) => {
   const { productId } = action
   const stateIndex = state.addedIds.indexOf(productId)
 
@@ -26,7 +26,9 @@ const addedIds = (state = initialState, action) => {
       }
       return [ ...state.addedIds, productId ]
     case REMOVE_FROM_CART:
-      if (stateIndex !== -1 && getQuantity(state, productId) <= 1) {
+      const isUpdatingCartQuantity = action.hasOwnProperty('quantity')
+
+      if (stateIndex !== -1 && ((isUpdatingCartQuantity && action.quantity === 0) || getQuantity(state, productId) <= 1)) {
         return state.addedIds.filter((id, index) => index !== stateIndex)
       }
       return state.addedIds
