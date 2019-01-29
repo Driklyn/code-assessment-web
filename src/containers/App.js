@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setCartVisibility } from '../actions'
+import { getCartProducts } from '../reducers'
 import ProductsContainer from './ProductsContainer'
 import CartContainer from './CartContainer'
-import { STORE_NAME, CART_EMPTY } from '../constants/Labels'
+import { STORE_NAME, CART_EMPTY, CART_NOT_EMPTY } from '../constants/Labels'
 import './App.css'
 
-const App = ({ setCartVisibility }) => (
+const App = ({ products, setCartVisibility }) => (
   <div className="app">
     <div className="app__header">
       <h1 className="app__storeName">
@@ -18,9 +19,9 @@ const App = ({ setCartVisibility }) => (
         onClick={() => setCartVisibility(true)}>
         <img
           className="app__cartIcon"
-          src="/img/cart.svg"
+          src="/img/cart-black.svg"
           alt="" />
-        {CART_EMPTY}
+        {products.length > 0 ? CART_NOT_EMPTY : CART_EMPTY}
       </p>
     </div>
     <hr className="app__divider" />
@@ -33,7 +34,11 @@ App.propTypes = {
   setCartVisibility: PropTypes.func.isRequired
 }
 
+const mapStateToProps = (state) => ({
+  products: getCartProducts(state),
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   { setCartVisibility }
 )(App)

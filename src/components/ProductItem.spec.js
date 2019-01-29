@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import ProductItem from './ProductItem'
-import { REMAINING, ADD_TO_CART, REMOVE_FROM_CART, SOLD_OUT } from '../constants/Labels'
+import { ADD_TO_CART, REMOVE_FROM_CART, SOLD_OUT, REMAINING } from '../constants/Labels'
 
 const setup = product => {
   const actions = {
@@ -17,9 +17,9 @@ const setup = product => {
   return {
     product: component,
     actions: actions,
-    addButton: component.find('Button').first(),
-    removeButton: component.find('Button').last(),
-    quantityInput: component.find('input')
+    addButton: component.find('.productItem__add'),
+    removeButton: component.find('.productItem__remove'),
+    quantityInput: component.find('.productItem__quantity')
   }
 }
 

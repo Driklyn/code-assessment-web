@@ -15,12 +15,34 @@
   margin: 28px 0;
 }
 
+.cart__totalContainer {
+  display: flex;
+  padding: 0 38px;
+}
+
+.cart__totalLabel,
+.cart__totalPrice {
+  font-size: 21px;
+  line-height: 24px;
+  margin: 0 0 28px;
+}
+
+.cart__totalLabel {
+  color: #939393;
+  flex-grow: 1;
+}
+
+.cart__checkout {
+  width: 100%;
+}
+
 .cart__emptyContainer {
   align-items: center;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: center;
+  padding: 60px 0;
 }
 
 .cart__emptyIcon {

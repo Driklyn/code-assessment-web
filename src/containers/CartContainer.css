@@ -1,14 +1,23 @@
 ﻿.cartModal {
-  align-items: center;
   background-color: rgba(9,9,9,.09);
+  box-sizing: border-box;
   cursor: pointer;
-  display: flex;
+  display: grid;
   height: 100%;
-  justify-content: center;
   left: 0;
+  overflow-y: scroll;
+  padding: 20px;
   position: fixed;
   top: 0;
   width: 100%;
+}
+
+.cartModal__container {
+  align-items: center;
+  display: grid;
+  height: 100%;
+  justify-items: center;
+  pointer-events: none;
 }
 
 .cartModal__contents {
@@ -18,9 +27,50 @@
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.17);
   box-sizing: border-box;
   cursor: auto;
-  height: 90%;
-  max-height: 678px;
+  display: grid;
   max-width: 780px;
   padding: 70px 80px;
-  width: 90%;
+  pointer-events: auto;
+  width: 100%;
+}
+
+.cartModal .productItem__container {
+  padding: 26px 38px;
+}
+
+.cartModal .productItem__topContainer {
+  margin-bottom: 10px;
+}
+
+.cartModal .productItem__photo {
+  height: 167px;
+  width: 268px;
+}
+
+.cartModal .productItem__title {
+  font-size: 28px;
+  line-height: 32px;
+}
+
+.cartModal .productItem__price {
+  margin: 0 0 2px;
+}
+
+.cartModal .productItem__inventory {
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.cartModal .productItem__add,
+.cartModal .productItem__remove {
+  font-size: 25px;
+  line-height: 25px;
+}
+
+.cartModal .productItem__add {
+  padding-top: 1px;
+}
+
+.cartModal .productItem__remove {
+  padding-bottom: 4px;
 }

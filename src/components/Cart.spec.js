@@ -5,6 +5,9 @@ import { CART_EMPTY_TIP } from '../constants/Labels'
 
 const setup = (total, products = []) => {
   const actions = {
+    onAddToCartClicked: jest.fn(),
+    onRemoveFromCartClicked: jest.fn(),
+    onCartQuantityChanged: jest.fn(),
     onCheckoutClicked: jest.fn()
   }
 
@@ -17,25 +20,25 @@ const setup = (total, products = []) => {
     actions: actions,
     products: component.find('ProductItem'),
     emptyTip: component.find('.cart__emptyTip'),
-    total: component.find('.cart__total'),
+    total: component.find('.cart__totalPrice'),
     checkout: component.find('.cart__checkout'),
   }
 }
 
 describe('Cart component', () => {
-  it('should display total', () => {
-    const { total } = setup('76')
-    expect(total.text()).toMatch(/^Total: \$76/)
-  })
-
   it('should display add some products message', () => {
     const { emptyTip } = setup()
     expect(emptyTip.text()).toEqual(CART_EMPTY_TIP)
   })
 
-  it('should disable checkout', () => {
+  it('should not display total', () => {
+    const { total } = setup('76')
+    expect(total).toHaveLength(0)
+  })
+
+  it('should not disable checkout', () => {
     const { checkout } = setup()
-    expect(checkout.prop('disabled')).toEqual('disabled')
+    expect(checkout).toHaveLength(0)
   })
 
   describe('when given product', () => {
@@ -45,18 +48,23 @@ describe('Cart component', () => {
         title: 'Product 1',
         price: 9.99,
         inventory: 1,
-        initialInventory: 1,
+        initialInventory: 1
       }
     ]
 
     it('should render products', () => {
       const { products } = setup('9.99', product)
-      expect(products.at(0).props()).toEqual({ product: product[0] })
+      expect(products.at(0).props().product).toEqual(product[0])
+    })
+
+    it('should display total', () => {
+      const { total } = setup('76', product)
+      expect(total.text()).toEqual('$76')
     })
 
     it('should not disable checkout', () => {
       const { checkout } = setup('9.99', product)
-      expect(checkout.prop('disabled')).toEqual('')
+      expect(checkout.prop('disabled')).toEqual(false)
     })
 
     it('should call action on checkout click', () => {

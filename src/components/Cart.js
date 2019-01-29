@@ -1,40 +1,54 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ProductItem from './ProductItem'
-import { CART_NAME, CART_EMPTY_TIP } from '../constants/Labels'
+import Button, { ButtonTypes, ButtonStyles } from './Button'
+import { CART_NAME, CART_EMPTY_TIP, CART_TOTAL, CHECKOUT } from '../constants/Labels'
 import './Cart.css'
 
-const Cart = ({ products, total, onCheckoutClicked }) => (
+const Cart = ({ products, addButton, removeButton, total, onAddToCartClicked, onRemoveFromCartClicked, onCartQuantityChanged, onCheckoutClicked }) => (
   <div className="cart">
     <h3 className="cart__name">
       {CART_NAME}
     </h3>
     <hr className="cart__divider" />
     {products.length > 0 &&
-      products.map(product =>
-        <ProductItem
-          key={product.id}
-          product={product}
-        />)}
+      <div>
+        {products.map(product =>
+          <ProductItem
+            key={product.id}
+            product={product}
+            addButton={addButton}
+            removeButton={removeButton}
+            onAddToCartClicked={() => onAddToCartClicked(product.id)}
+            onRemoveFromCartClicked={() => onRemoveFromCartClicked(product.id)}
+            onCartQuantityChanged={quantity => onCartQuantityChanged(product.id, quantity)}
+          />)}
+        <hr className="cart__divider" />
+        <div className="cart__totalContainer">
+          <p className="cart__totalLabel">
+            {CART_TOTAL}
+          </p>
+          <p className="cart__totalPrice">
+            &#36;{total}
+          </p>
+        </div>
+        <Button
+          className="cart__checkout"
+          onClick={onCheckoutClicked}
+          disabled={products.length <= 0}>
+            {CHECKOUT}
+        </Button>
+      </div>}
     {!products.length &&
       <div className="cart__emptyContainer">
         <img
           className="cart__emptyIcon"
-          src="img/cart-large.svg"
+          src="img/cart-gray.svg"
           alt="" />
         <p className="cart__emptyTip">
           {CART_EMPTY_TIP}
         </p>
       </div>}
-    <p className="cart__total">
-      Total: &#36;{total}
-    </p>
-    <button
-      className="cart__checkout"
-      onClick={onCheckoutClicked}
-      disabled={products.length > 0 ? '' : 'disabled'}>
-      Checkout
-    </button>
   </div>
 )
 
@@ -45,9 +59,22 @@ Cart.propTypes = {
     price: PropTypes.number.isRequired,
     inventory: PropTypes.number.isRequired,
     initialInventory: PropTypes.number.isRequired
-  })).isRequired,
+  })),
+  addButton: PropTypes.shape({
+    type: PropTypes.oneOf(Object.values(ButtonTypes)),
+    style: PropTypes.oneOf(Object.values(ButtonStyles)),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+  }),
+  removeButton: PropTypes.shape({
+    type: PropTypes.oneOf(Object.values(ButtonTypes)),
+    style: PropTypes.oneOf(Object.values(ButtonStyles)),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+  }),
   total: PropTypes.string,
-  onCheckoutClicked: PropTypes.func
+  onAddToCartClicked: PropTypes.func.isRequired,
+  onRemoveFromCartClicked: PropTypes.func.isRequired,
+  onCartQuantityChanged: PropTypes.func.isRequired,
+  onCheckoutClicked: PropTypes.func.isRequired
 }
 
 export default Cart

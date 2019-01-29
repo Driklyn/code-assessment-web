@@ -10,6 +10,10 @@
   padding: 0 26px;
 }
 
+.button img {
+  vertical-align: middle;
+}
+
 .button:not([disabled]) {
   cursor: pointer;
 }

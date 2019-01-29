@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from './Button'
-import { REMAINING, ADD_TO_CART, REMOVE_FROM_CART, SOLD_OUT } from '../constants/Labels'
+import Button, { ButtonTypes, ButtonStyles } from './Button'
+import { ADD_TO_CART, REMOVE_FROM_CART, SOLD_OUT, REMAINING } from '../constants/Labels'
 import './ProductItem.css'
 
-const ProductItem = ({ product, onAddToCartClicked, onRemoveFromCartClicked, onCartQuantityChanged }) => (
+const ProductItem = ({ product, addButton, removeButton, onAddToCartClicked, onRemoveFromCartClicked, onCartQuantityChanged }) => (
   <div className="productItem">
     <img
       className="productItem__photo"
@@ -23,25 +23,32 @@ const ProductItem = ({ product, onAddToCartClicked, onRemoveFromCartClicked, onC
         <p className="productItem__inventory">
           {product.inventory} {REMAINING}
         </p>
-        {!!onAddToCartClicked &&
-          <Button
-            className="productItem__button"
-            onClick={onAddToCartClicked}
-            disabled={product.inventory <= 0}>
-              {product.inventory > 0 ? ADD_TO_CART : SOLD_OUT}
-          </Button>}
-        {!!onCartQuantityChanged &&
-          <input
-            onClick={e => e.target.select()}
-            onChange={e => onCartQuantityChanged(parseInt(e.target.value, 10))}
-            value={product.initialInventory - product.inventory} />}
-        {!!onRemoveFromCartClicked &&
-          <Button
-            className="productItem__button"
-            onClick={onRemoveFromCartClicked}
-            disabled={product.inventory >= product.initialInventory}>
-              {REMOVE_FROM_CART}
-          </Button>}
+        <div className="productItem__actionsContainer">
+          {!!onRemoveFromCartClicked &&
+            <Button
+              className="productItem__remove"
+              type={removeButton.type}
+              style={removeButton.style}
+              onClick={onRemoveFromCartClicked}
+              disabled={product.inventory >= product.initialInventory}>
+                {(!!removeButton.label && removeButton.label) || REMOVE_FROM_CART}
+            </Button>}
+          {!!onCartQuantityChanged &&
+            <input
+              className="productItem__quantity"
+              onClick={e => e.target.select()}
+              onChange={e => onCartQuantityChanged(parseInt(e.target.value, 10))}
+              value={product.initialInventory - product.inventory} />}
+          {!!onAddToCartClicked &&
+            <Button
+              className="productItem__add"
+              type={addButton.type}
+              style={addButton.style}
+              onClick={onAddToCartClicked}
+              disabled={product.inventory <= 0}>
+                {(!!addButton.label && addButton.label) || (product.inventory > 0 ? ADD_TO_CART : SOLD_OUT)}
+            </Button>}
+        </div>
       </div>
     </div>
   </div>
@@ -54,9 +61,24 @@ ProductItem.propTypes = {
     inventory: PropTypes.number.isRequired,
     initialInventory: PropTypes.number.isRequired
   }).isRequired,
+  addButton: PropTypes.shape({
+    type: PropTypes.oneOf(Object.values(ButtonTypes)),
+    style: PropTypes.oneOf(Object.values(ButtonStyles)),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+  }),
+  removeButton: PropTypes.shape({
+    type: PropTypes.oneOf(Object.values(ButtonTypes)),
+    style: PropTypes.oneOf(Object.values(ButtonStyles)),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+  }),
   onAddToCartClicked: PropTypes.func,
   onRemoveFromCartClicked: PropTypes.func,
   onCartQuantityChanged: PropTypes.func
+}
+
+ProductItem.defaultProps = {
+  addButton: {},
+  removeButton: {}
 }
 
 export default ProductItem
