@@ -9,7 +9,7 @@ import './CartContainer.css'
 
 const setPageScrolling = isAllowed => {
   document.body.style.overflow = !isAllowed ? 'hidden' : ''
-  return true;
+  return true
 }
 
 const CartContainer = ({ isVisible, products, total, addToCart, removeFromCart, updateCartQuantity, checkout, setCartVisibility }) => (
