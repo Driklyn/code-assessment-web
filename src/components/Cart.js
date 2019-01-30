@@ -13,16 +13,18 @@ const Cart = ({ products, addButton, removeButton, total, onAddToCartClicked, on
     <hr className="cart__divider" />
     {products.length > 0 &&
       <div>
-        {products.map(product =>
-          <ProductItem
-            key={product.id}
-            product={product}
-            addButton={addButton}
-            removeButton={removeButton}
-            onAddToCartClicked={() => onAddToCartClicked(product.id)}
-            onRemoveFromCartClicked={() => onRemoveFromCartClicked(product.id)}
-            onCartQuantityChanged={quantity => onCartQuantityChanged(product.id, quantity)}
-          />)}
+        <div>
+          {products.map(product =>
+            <ProductItem
+              key={product.id}
+              product={product}
+              addButton={addButton}
+              removeButton={removeButton}
+              onAddToCartClicked={() => onAddToCartClicked(product.id)}
+              onRemoveFromCartClicked={() => onRemoveFromCartClicked(product.id)}
+              onCartQuantityChanged={quantity => onCartQuantityChanged(product.id, quantity)}
+            />)}
+        </div>
         <hr className="cart__divider" />
         <div className="cart__totalContainer">
           <p className="cart__totalLabel">

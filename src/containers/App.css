@@ -2,10 +2,12 @@
   --normalWeight: 400;
 
   background-color: #f4f5f7;
+  box-sizing: border-box;
   color: #222;
   font-family: Arial, sans-serif;
   font-weight: var(--normalWeight);
-  margin: 55px 82px;
+  margin: 0;
+  padding: 55px 82px;
 }
 
 hr {
@@ -41,5 +43,44 @@ hr {
 }
 
 .app__divider {
-  margin: 33px 0;
+  margin: 32px 0;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+  body {
+    padding: 47px 49px;
+  }
+
+  .app__storeName {
+    font-size: 38px;
+    line-height: 35px;
+  }
+
+  .app__divider {
+    margin: 28px 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  body {
+    padding: 33px 13px;
+    width: 320px;
+  }
+
+  .app__header {
+    flex-direction: column;
+  }
+
+  .app__storeName {
+    font-size: 28px;
+  }
+
+  .app__cart {
+    align-self: flex-start;
+    margin: 0;
+  }
+
+  .app__divider {
+    margin: 20px 0;
+  }
 }
