@@ -30,7 +30,19 @@
   max-width: 780px;
   padding: 35px 40px;
   pointer-events: auto;
+  position: relative;
   width: 100%;
+}
+
+.cartModal__closeIcon {
+  --size: 30px;
+
+  cursor: pointer;
+  height: var(--size);
+  position: absolute;
+  right: var(--size);
+  top: var(--size);
+  width: var(--size);
 }
 
 .cartModal .productItem {
@@ -86,6 +98,10 @@
     box-shadow: none;
     height: 100%;
     padding: 48px 13px 13px;
+  }
+
+  .cartModal__closeIcon {
+    --size: 20px;
   }
 
   .cartModal .productItem {

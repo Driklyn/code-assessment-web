@@ -19,6 +19,11 @@ const CartContainer = ({ isVisible, products, total, addToCart, removeFromCart, 
       onClick={e => e.target.classList.contains('cartModal') && setCartVisibility(false)}>
       <div className="cartModal__container">
         <div className="cartModal__contents">
+          <img
+            className="cartModal__closeIcon"
+            src="img/close-icon.svg"
+            onClick={() => setCartVisibility(false)}
+            alt="" />
           <Cart
             products={products}
             removeButton={{
